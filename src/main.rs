@@ -40,18 +40,30 @@ fn complete_task(id: i64, task: &mut Tasks) -> Option<&Task>{
     None
 }
 
+fn list_task(){
+    let task = Tasks {
+        todo_list: Vec::new()
+    };
+        for task in &task.todo_list{
+            println!(
+                "Task ID: {}, Description: {}, Completed: {}",
+                task.id, task.description, task.completed
+            );
+        }
+}
+
 fn main() {
     let mut current_tasks: Tasks = Tasks {
         todo_list: Vec::new()
     };
 
-    let new_task = add_task("Bye!", &mut current_tasks);
+    let new_task = add_task("Girl!", &mut current_tasks);
 
-   println!("The current tasks are {:#?}", current_tasks);
-   println!("The New tasks are {:#?}", new_task);
+  // println!("The current tasks are {:#?}", current_tasks);
+  // println!("The New tasks are {:#?}", new_task);
+   list_task();
 
 
-  complete_task(437, &mut current_tasks);
 
    
 }
