@@ -1,69 +1,55 @@
 use rand::Rng;
 
 #[derive(Debug, Clone)]
-#[warn(dead_code)]
-struct Task{
+struct Task {
     id: i64,
     description: String,
-    completed: bool
+    completed: bool,
 }
 
 #[derive(Debug)]
-struct Tasks{
-    todo_list: Vec<Task>
+struct Tasks {
+    todo_list: Vec<Task>,
 }
 
-
-fn add_task(description: &str, task: &mut Tasks) -> Task{
+fn add_task(description: &str, tasks: &mut Tasks) -> Task {
     let mut rng = rand::thread_rng();
-    let new_id: i64 = rng.gen_range(1..1000);
+    let new_id: i64 = rng.gen_range(1..=1000);
 
-    let new_task: Task = Task {
+    let new_task = Task {
         id: new_id,
         description: String::from(description),
         completed: false,
     };
 
-    task.todo_list.push(new_task.clone());
+    // Add the new task to the vector
+    tasks.todo_list.push(new_task.clone());
+
     // Return the created Task instance
-    return new_task;
+    new_task
 }
 
-fn complete_task(id: i64, task: &mut Tasks) -> Option<&Task>{
-    for task in &mut task.todo_list{
+fn complete_task(id: i64, tasks: &mut Tasks) -> Option<&Task> {
+    for task in &mut tasks.todo_list {
         if task.id == id {
             task.completed = true;
             return Some(task);
         }
     }
-
     None
 }
 
-fn list_task(){
-    let task = Tasks {
-        todo_list: Vec::new()
-    };
-        for task in &task.todo_list{
-            println!(
-                "Task ID: {}, Description: {}, Completed: {}",
-                task.id, task.description, task.completed
-            );
-        }
+fn list_tasks(tasks: &Tasks) {
+    for task in &tasks.todo_list {
+        println!("Task ID: {}, Description: {}, Completed: {}", task.id, task.description, task.completed);
+    }
 }
 
 fn main() {
-    let mut current_tasks: Tasks = Tasks {
-        todo_list: Vec::new()
-    };
+    let mut todo_list = Tasks { todo_list: Vec::new() };
 
-    let new_task = add_task("Girl!", &mut current_tasks);
+    let new_task = add_task("Do laundry", &mut todo_list);
 
-  // println!("The current tasks are {:#?}", current_tasks);
-  // println!("The New tasks are {:#?}", new_task);
-   list_task();
-
-
-
-   
+    println!("Added task: {:?}", new_task);
+    println!("Todo list: {:?}", todo_list);
 }
