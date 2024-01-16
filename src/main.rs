@@ -25,21 +25,33 @@ fn add_task(description: &str, task: &mut Tasks) -> Task{
     };
 
     task.todo_list.push(new_task.clone());
-
     // Return the created Task instance
     return new_task;
+}
 
+fn complete_task(id: i64, task: &mut Tasks) -> Option<&Task>{
+    for task in &mut task.todo_list{
+        if task.id == id {
+            task.completed = true;
+            return Some(task);
+        }
+    }
+
+    None
 }
 
 fn main() {
-    let mut current_tasks = Tasks {
+    let mut current_tasks: Tasks = Tasks {
         todo_list: Vec::new()
     };
 
-    let new_task = add_task("Cooking!", &mut current_tasks);
+    let new_task = add_task("Bye!", &mut current_tasks);
 
    println!("The current tasks are {:#?}", current_tasks);
    println!("The New tasks are {:#?}", new_task);
+
+
+  complete_task(437, &mut current_tasks);
 
    
 }
